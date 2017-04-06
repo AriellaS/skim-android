@@ -20,11 +20,15 @@ public class CameraActivity extends Activity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-            setResult(Activity.RESULT_OK, new Intent().putExtra("photo", photo));
-            finish();
+        if (requestCode == CAMERA_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                setResult(Activity.RESULT_OK, new Intent().putExtra("photo", photo));
+                finish();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                setResult(Activity.RESULT_CANCELED, new Intent());
+                finish();
+            }
         }
     }
 }

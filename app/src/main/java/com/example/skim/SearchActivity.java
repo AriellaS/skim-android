@@ -1,10 +1,11 @@
 package com.example.skim;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import org.json.JSONArray;
@@ -25,9 +26,16 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        final FloatingActionButton cancelButton = (FloatingActionButton) findViewById(R.id.cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         ImageView view = (ImageView) findViewById(R.id.image);
-        view.setImageBitmap((Bitmap) getIntent().getExtras().get("photo"));
-        Bitmap photo = ((BitmapDrawable) view.getDrawable()).getBitmap();
+        Bitmap photo = (Bitmap) getIntent().getExtras().get("photo");
+        view.setImageBitmap(photo);
         new APIRequest().execute(photo);
     }
 
@@ -44,19 +52,15 @@ public class SearchActivity extends AppCompatActivity {
                 httpCon.setDoOutput(true);
                 httpCon.setRequestMethod("POST");
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                //baos.write(new FileInputStream(params[0]).read());
                 params[0].compress(Bitmap.CompressFormat.JPEG, 60, baos);
                 baos.writeTo(httpCon.getOutputStream());
                 System.out.println(httpCon.getResponseCode());
                 System.out.println(httpCon.getResponseMessage());
-                //System.out.println(httpCon.getInputStream().read());
                 InputStreamReader reader = new InputStreamReader(httpCon.getInputStream(), "UTF-8");
-                String str = "";
                 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
                 int thing = 0;
                 while (thing != -1) {
-                    //System.out.println(reader.read());
                     thing = reader.read();
                     buffer.write(thing);
                 }

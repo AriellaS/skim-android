@@ -16,23 +16,6 @@
         android:layout_weight="1"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/title_camera" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/open_camera" />
-
         <ImageView
             android:id="@+id/background"
             android:scaleType="centerCrop"
@@ -40,13 +23,26 @@
             android:layout_height="wrap_content"
             android:src="@drawable/logo"/>
 
-    </FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/camera"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="100dp"
+            app:srcCompat="@drawable/cam" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:menu="@menu/navigation" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/gallery"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="40dp"
+            android:layout_marginRight="100dp"
+            app:srcCompat="@drawable/gall" />
+
+    </FrameLayout>
 
 </LinearLayout>

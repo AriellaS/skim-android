@@ -1,13 +1,3 @@
 <resources>
     <string name="app_name">Skim</string>
-    <string name="title_camera">Camera</string>
-    <string name="title_gallery">Gallery</string>
-    <string name="open_camera">Open Camera</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_gallery">Gallery</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 </resources>
