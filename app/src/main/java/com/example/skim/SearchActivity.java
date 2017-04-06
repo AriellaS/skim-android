@@ -1,11 +1,15 @@
 package com.example.skim;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import org.json.JSONArray;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 public class SearchActivity extends AppCompatActivity {
 
     ArrayList<Word> foundWords;
+    EditText text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,11 @@ public class SearchActivity extends AppCompatActivity {
                 finish();
             }
         });
+        
+        text = (EditText) findViewById(R.id.text);
+        text.setFocusable(false);
+        text.setTextColor(Color.LTGRAY);
+        text.setText("Loading...");
 
         ImageView view = (ImageView) findViewById(R.id.image);
         Bitmap photo = (Bitmap) getIntent().getExtras().get("photo");
@@ -67,6 +77,10 @@ public class SearchActivity extends AppCompatActivity {
                 baos.close();
 
                 JSONObject json = new JSONObject(buffer.toString());
+                if (((JSONArray) json.get("regions")).length() <= 0) {
+                    return null;
+                }
+
                 System.out.println(json);
                 JSONObject regions = json.getJSONObject("regions");
 
@@ -89,8 +103,29 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Word> result) {
-            foundWords = result;
+            if (result == null) {
+                showAlert();
+                text.setText("No text found.");
+            } else {
+                foundWords = result;
+                text.setFocusable(true);
+                text.setTextColor(Color.DKGRAY);
+                text.setText("");
+            }
         }
 
+    }
+
+    private void showAlert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(SearchActivity.this).create();
+        alertDialog.setTitle("Oh no!");
+        alertDialog.setMessage("Skim was unable to find any text in this image.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

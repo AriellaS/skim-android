@@ -30,6 +30,14 @@
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@drawable/ic_close_black_24dp" />
 
+        <EditText
+            android:id="@+id/text"
+            android:backgroundTint="@color/colorMain"
+            android:layout_gravity="top"
+            android:layout_width="match_parent"
+            android:maxLines="1"
+            android:layout_height="50dp" />
+
     </FrameLayout>
 
 </LinearLayout>

@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
         final FloatingActionButton cameraButton = (FloatingActionButton) findViewById(R.id.camera);
         cameraButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
