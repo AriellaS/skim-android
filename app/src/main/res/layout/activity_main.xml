@@ -25,7 +25,7 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/camera"
-            android:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|left"
@@ -35,7 +35,7 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/gallery"
-            android:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"

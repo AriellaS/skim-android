@@ -2,32 +2,56 @@ package com.example.skim;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.os.Environment;
+import android.provider.MediaStore;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CameraActivity extends Activity {
-    private static final int CAMERA_REQUEST = 1888;
-    private ImageView imageView;
+    private static final int REQUEST_TAKE_PHOTO = 5;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.imageView = (ImageView)this.findViewById(R.id.image);
-
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        try {
+            dispatchTakePhotoIntent();
+        } catch (IOException e) {};
     }
 
+    Uri uri;
+    private void dispatchTakePhotoIntent() throws IOException {
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+            File file = File.createTempFile(
+                    new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_",
+                    ".jpg",
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            );
+            if (file != null) {
+                uri = Uri.fromFile(file);
+                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                setResult(Activity.RESULT_OK, new Intent().putExtra("photo", photo));
-                finish();
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                setResult(Activity.RESULT_CANCELED, new Intent());
-                finish();
+        switch (requestCode) {
+            case (REQUEST_TAKE_PHOTO) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    setResult(Activity.RESULT_OK, new Intent().putExtra("imageUri", uri));
+                    finish();
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    setResult(Activity.RESULT_CANCELED, new Intent());
+                    finish();
+                }
+                break;
             }
         }
     }

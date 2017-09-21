@@ -3,7 +3,9 @@ package com.example.skim;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -44,7 +47,12 @@ public class SearchActivity extends AppCompatActivity {
         text.setText("Loading...");
 
         ImageView view = (ImageView) findViewById(R.id.image);
-        Bitmap photo = (Bitmap) getIntent().getExtras().get("photo");
+        Bitmap photo = null;
+        Uri imageUri = (Uri) getIntent().getExtras().get("imageUri");
+        try {
+            photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+        } catch (IOException e) {};
+        System.out.println(photo.getHeight());
         view.setImageBitmap(photo);
         new APIRequest().execute(photo);
     }
