@@ -40,7 +40,6 @@ public class CameraActivity extends Activity {
         }
     }
 
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case (REQUEST_TAKE_PHOTO) : {
